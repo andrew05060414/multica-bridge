@@ -24,6 +24,8 @@ permissions: {}
 jobs:
   relay:
     uses: andrew05060414/multica-bridge/.github/workflows/pr-closed-relay.yml@v1
+    with:
+      runner: ${{ fromJSON(vars.PXREAD_RUNNER || '"ubuntu-latest"') }}
     secrets: inherit
 ```
 
@@ -32,6 +34,9 @@ repository secret. The reusable workflow does not store or print the secret.
 It sends a bounded payload with the `pr_closed` action, repository name, pull
 request number and state, merge information, branch refs, URL, sender, and a
 stable delivery identifier.
+
+The optional `runner` input defaults to `ubuntu-latest`. A caller can pass its
+own runner variable without changing the reusable workflow.
 
 The workflow does not check out the calling repository and does not execute
 repository code. Its only external operation is the POST to the configured

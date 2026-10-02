@@ -1,7 +1,13 @@
 name: Multica PR closed relay
 
 on:
-  workflow_call: {}
+  workflow_call:
+    inputs:
+      runner:
+        description: Runner label supplied by the calling repository
+        required: false
+        type: string
+        default: ubuntu-latest
 
 permissions: {}
 
@@ -9,7 +15,7 @@ jobs:
   relay:
     name: Relay closed pull request
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 5
     steps:
       - name: Validate webhook configuration
